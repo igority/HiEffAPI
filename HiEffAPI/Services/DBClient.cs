@@ -15,8 +15,8 @@ namespace HiEffAPI.Services
         private IMongoClient _client;
         private IMongoDatabase _database;
 
-        public List<TestOutput> testOutputs { get; set; }
-        public List<TestInput> testInputs { get; set; }
+        public List<PLCOutput> PLCOutputs { get; set; }
+        public List<PLCInput> PLCInputs { get; set; }
 
 
         public DBClient()
@@ -38,72 +38,76 @@ namespace HiEffAPI.Services
 
         }
 
-        public List<TestInput> GetTestInputs()
+        public List<PLCInput> GetPLCInputs()
         {
-            List<TestInput> _testInputs = new List<TestInput>();
-            var collection = _database.GetCollection<BsonDocument>("Test-Input");
+            List<PLCInput> _plcInputs = new List<PLCInput>();
+            var collection = _database.GetCollection<BsonDocument>("PLC_inputs");
             var filter = new BsonDocument();
             var results = collection.Find(filter).Limit(100).ToList();
             if (results.Count > 0)
             {
                 foreach (var result in results)
                 {
-                    TestInput testInput = new TestInput(result);
-                    _testInputs.Add(testInput);
+                    PLCInput plcInput = new PLCInput(result);
+                    _plcInputs.Add(plcInput);
                 }
             }
-            testInputs = _testInputs;
-            return _testInputs;
+            PLCInputs = _plcInputs;
+            return _plcInputs;
         }
 
-        public List<TestOutput> GetTestOutputs()
+        public List<PLCOutput> GetPLCOutputs()
         {
-            List<TestOutput> _testOutputs = new List<TestOutput>();
-            var collection = _database.GetCollection<BsonDocument>("Test-Output");
+            List<PLCOutput> _plcOutputs = new List<PLCOutput>();
+            var collection = _database.GetCollection<BsonDocument>("PLC_outputs");
             var filter = new BsonDocument();
             var results = collection.Find(filter).Limit(100).ToList();
             if (results.Count > 0)
             {
                 foreach (var result in results)
                 {
-                    TestOutput testOutput = new TestOutput(result);
-                    _testOutputs.Add(testOutput);
+                    PLCOutput plcOutput = new PLCOutput(result);
+                    _plcOutputs.Add(plcOutput);
                 }
             }
-            testOutputs = _testOutputs;
-            return _testOutputs;
+            PLCOutputs = _plcOutputs;
+            return _plcOutputs;
         }
 
-        public void UpdateTestOutput(TestOutput testOutput)
+        public void UpdatePLCOutput(PLCOutput plcOutput)
         {
-            var collection = _database.GetCollection<BsonDocument>("Test-Output");
-            var filter = Builders<BsonDocument>.Filter.Eq("id", testOutput.id);
-            var update = Builders<BsonDocument>.Update.Set("output_bool", testOutput.output_bool).Set("output_int", testOutput.output_int).Set("output_random", testOutput.output_random);
+            var collection = _database.GetCollection<BsonDocument>("PLC_outputs");
+            var filter = Builders<BsonDocument>.Filter.Eq("id", plcOutput.id);
+            var update = Builders<BsonDocument>.Update.Set("iPLC_STATUS", plcOutput.iPLC_STATUS);
+                        //.Set("output_int", testOutput.output_int)
+                        //.Set("output_random", testOutput.output_random);
+
             //var update = Builders<BsonDocument>.Update.Set("order_status", order.order_status);
             var result = collection.UpdateMany(filter, update);
         }
-        public void UpdateTestInput(TestInput testInput)
+        public void UpdatePLCInput(PLCInput plcInput)
         {
-            var collection = _database.GetCollection<BsonDocument>("Test-Input");
-            var filter = Builders<BsonDocument>.Filter.Eq("id", testInput.id);
-            var update = Builders<BsonDocument>.Update.Set("input_bool", testInput.input_bool).Set("input_int", testInput.input_int);
-            //var update = Builders<BsonDocument>.Update.Set("order_status", order.order_status);
+            var collection = _database.GetCollection<BsonDocument>("PLC_inputs");
+            var filter = Builders<BsonDocument>.Filter.Eq("id", plcInput.id);
+            var update = Builders<BsonDocument>.Update.Set("iPLC_STATUS", plcInput.iPLC_STATUS);
+                            //.Set("input_int", plcInput.input_int);
+                            //var update = Builders<BsonDocument>.Update.Set("order_status", order.order_status);
             var result = collection.UpdateMany(filter, update);
         }
 
-        internal void InsertTestInput(TestInput testInput)
+        internal void InsertPLCInput(PLCInput pLCInput)
         {
             throw new NotImplementedException();
         }
-        internal void InsertTestOutput(TestOutput testOutput)
+        internal void InsertPLCOutput(PLCOutput pLCOutput)
         {
             throw new NotImplementedException();
         }
-        internal void DeleteTestOutput(ObjectId id)
+        internal void DeletePLCOutput(ObjectId id)
         {
             throw new NotImplementedException();
         }
-        internal void DeleteTestInput(ObjectId id)
+        internal void DeletePLCInput(ObjectId id)
         {
             throw new NotImplementedException();
         }

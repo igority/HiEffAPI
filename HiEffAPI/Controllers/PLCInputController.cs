@@ -14,19 +14,19 @@ using System.Web.Http.Cors;
 namespace HiEffAPI.Controllers
 {
     [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
-    public class TestInputController : ApiController
+    public class PLCInputController : ApiController
     {
         
         private DBClient dbClient;
-        public TestInputController()
+        public PLCInputController()
         {
             dbClient = new DBClient();
         }
 
         // GET: api/TestInput
-        public List<TestInput> Get()
+        public List<PLCInput> Get()
         {
-            dbClient.GetTestInputs();
+            dbClient.GetPLCInputs();
             return dbClient.PLCInputs;
         }
 
@@ -38,9 +38,9 @@ namespace HiEffAPI.Controllers
         //}
 
         // POST: api/TestInput
-        public void Post(TestInput testInput)
+        public void Post(PLCInput plcInput)
         {
-            dbClient.InsertTestInput(testInput);
+            dbClient.InsertPLCInput(plcInput);
         }
 
         // PUT: api/TestInput/5
@@ -52,10 +52,10 @@ namespace HiEffAPI.Controllers
             {
                 if (id == 0)
                 {
-                    TestInput testInput = new TestInput();
+                    PLCInput plcInput = new PLCInput();
                     var json = request.Content.ReadAsStringAsync().Result;
-                    testInput = JsonConvert.DeserializeObject<TestInput>(json);
-                    dbClient.UpdateTestInput(testInput);
+                    plcInput = JsonConvert.DeserializeObject<PLCInput>(json);
+                    dbClient.UpdatePLCInput(plcInput);
                 }
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
@@ -77,7 +77,7 @@ namespace HiEffAPI.Controllers
         public void Delete(string _id)
         {
             ObjectId id = ObjectId.Parse(_id);
-            dbClient.DeleteTestInput(id);
+            dbClient.DeletePLCInput(id);
         }
     }
 }

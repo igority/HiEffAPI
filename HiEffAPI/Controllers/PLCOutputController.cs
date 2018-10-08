@@ -13,19 +13,19 @@ using System.Web.Http.Cors;
 namespace HiEffAPI.Controllers
 {
     [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
-    public class TestOutputController : ApiController
+    public class PLCOutputController : ApiController
     {
         private DBClient dbClient;
-        public TestOutputController()
+        public PLCOutputController()
         {
             dbClient = new DBClient();
         }
 
-        // GET: api/TestOutput
+        // GET: api/PLCOutput
         public string Get()
         {
 
-            dbClient.GetTestOutputs();
+            dbClient.GetPLCOutputs();
             return JsonConvert.SerializeObject(dbClient.PLCOutputs);
             // return new string[] { "value1", "value2" };
         }
@@ -33,7 +33,7 @@ namespace HiEffAPI.Controllers
         // GET: api/TestOutput/5
         public string Get(string id)
         {
-            dbClient.GetTestOutputs();
+            dbClient.GetPLCOutputs();
 
             ObjectId obj_id;
             try
@@ -45,10 +45,10 @@ namespace HiEffAPI.Controllers
             {
                 obj_id = ObjectId.Empty;
             }
-            IEnumerable<TestOutput> testOutputs_filtered = dbClient.PLCOutputs.Where(x => x.id == obj_id);
-            if (testOutputs_filtered.Count() > 0)
+            IEnumerable<PLCOutput> plcOutputs_filtered = dbClient.PLCOutputs.Where(x => x.id == obj_id);
+            if (plcOutputs_filtered.Count() > 0)
             {
-                return JsonConvert.SerializeObject(testOutputs_filtered.First());
+                return JsonConvert.SerializeObject(plcOutputs_filtered.First());
             } else
             {
                 return null;
@@ -56,13 +56,13 @@ namespace HiEffAPI.Controllers
             
         }
 
-        // POST: api/TestOutput
-        public void Post(string json_testOutput)
+        // POST: api/PLCOutput
+        public void Post(string json_plcOutput)
         {
             try
             {
-                TestOutput testOutput = (TestOutput)JsonConvert.DeserializeObject(json_testOutput);
-                dbClient.InsertTestOutput(testOutput);
+                PLCOutput plcOutput = (PLCOutput)JsonConvert.DeserializeObject(json_plcOutput);
+                dbClient.InsertPLCOutput(plcOutput);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace HiEffAPI.Controllers
             }
         }
 
-        // PUT: api/TestOutput/5
+        // PUT: api/PLCOutput/5
         public void Put(int id, [FromBody]string value)
         {
             //id = 5b4fa581dae6883fe0efc663
@@ -82,7 +82,7 @@ namespace HiEffAPI.Controllers
         public void Delete(string _id)
         {
             ObjectId id = ObjectId.Parse(_id);
-            dbClient.DeleteTestOutput(id);
+            dbClient.DeletePLCOutput(id);
         }
     }
 }
