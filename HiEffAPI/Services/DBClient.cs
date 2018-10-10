@@ -88,7 +88,8 @@ namespace HiEffAPI.Services
         public void UpdatePLCInput(PLCInput plcInput)
         {
             var collection = _database.GetCollection<BsonDocument>("PLC_inputs");
-            var filter = Builders<BsonDocument>.Filter.Eq("id", plcInput.id);
+           // var filter = Builders<BsonDocument>.Filter.Eq("id", plcInput.id);
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", new ObjectId(plcInput.id));
             var update = Builders<BsonDocument>.Update.Set("iPLC_STATUS", plcInput.iPLC_STATUS);
                             //.Set("input_int", plcInput.input_int);
                             //var update = Builders<BsonDocument>.Update.Set("order_status", order.order_status);
@@ -107,7 +108,7 @@ namespace HiEffAPI.Services
         {
             throw new NotImplementedException();
         }
-        internal void DeletePLCInput(ObjectId id)
+        internal void DeletePLCInput(string id)
         {
             throw new NotImplementedException();
         }

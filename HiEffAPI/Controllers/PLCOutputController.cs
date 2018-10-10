@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 
 namespace HiEffAPI.Controllers
 {
-    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PLCOutputController : ApiController
     {
         private DBClient dbClient;

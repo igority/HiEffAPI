@@ -10,10 +10,11 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Http.Cors;
+using Newtonsoft.Json.Linq;
 
 namespace HiEffAPI.Controllers
 {
-    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PLCInputController : ApiController
     {
         
@@ -47,19 +48,20 @@ namespace HiEffAPI.Controllers
         public HttpResponseMessage Put(int id, HttpRequestMessage request)
         {
 
-
             try
             {
                 if (id == 0)
                 {
                     PLCInput plcInput = new PLCInput();
-                    var json = request.Content.ReadAsStringAsync().Result;
+                    string json = request.Content.ReadAsStringAsync().Result;
+                    //string json_minified = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.None);
                     plcInput = JsonConvert.DeserializeObject<PLCInput>(json);
+                    //plcInput = json_array.ToObject<PLCInput>();
                     dbClient.UpdatePLCInput(plcInput);
                 }
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return new HttpResponseMessage(HttpStatusCode.Conflict);
@@ -76,8 +78,8 @@ namespace HiEffAPI.Controllers
         // DELETE: api/TestInput/5
         public void Delete(string _id)
         {
-            ObjectId id = ObjectId.Parse(_id);
-            dbClient.DeletePLCInput(id);
+           // ObjectId id = ObjectId.Parse(_id);
+            dbClient.DeletePLCInput(_id);
         }
     }
 }

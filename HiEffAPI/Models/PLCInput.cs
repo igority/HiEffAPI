@@ -14,19 +14,20 @@ namespace HiEffAPI.Models
     public class PLCInput
     {
         [BsonId]
-        public ObjectId? id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public long? iPLC_STATUS { get; set; }
 
         public PLCInput()
         {
-            id = null;
-            //input_bool = false;
-            //input_int = 0;
+            id = "";
+
         }
 
         public PLCInput(BsonDocument result)
         {
-            id = result["_id"].AsObjectId;
+            ObjectId _id = result["_id"].AsObjectId;
+            id = _id.ToString();
             iPLC_STATUS = result["iPLC_STATUS"].AsInt64;
         }
     }
